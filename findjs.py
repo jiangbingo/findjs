@@ -4,13 +4,13 @@ import os, sys
 import fnmatch
 
 listonly = False
-skipexts = ['.js']
+filetype = ['.js']
 
 def visitfile(fname,searchkey):
     global fcount,vcount,list_of_contain_lines
     try:
         if not listonly:
-            if os.path.splitext(fname)[1] in skipexts:
+            if os.path.splitext(fname)[1] in filetype:
                 raw = open(fname).read()
                 if open(fname).read().find(searchkey) != -1:
                     print '%s has %s '%(fname,searchkey)
@@ -42,8 +42,8 @@ def searcher(startdir,searchkey):
     os.path.walk(startdir,visitor,searchkey)
 
 if __name__=='__main__':
-    root=raw_input("type root directory:")
-    # root = '/home/jiangbin/findJS'
+    # root=raw_input("type root directory:")
+    root = '/home/jiangbin/findJS'
     key=raw_input("type key:")
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
