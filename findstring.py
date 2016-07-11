@@ -6,7 +6,7 @@ import fnmatch
 listonly = False
 
 # 结果放入.txt文件，故禁用.txt
-filetype = ['.js', '.html']
+filetype = ['.js']
 
 def visitfile(fname,searchkey):
     global fcount,vcount,list_of_contain_lines
@@ -16,15 +16,18 @@ def visitfile(fname,searchkey):
                 raw = open(fname).read()
                 if open(fname).read().find(searchkey) != -1:
                     print '%s has %s '%(fname,searchkey)
-                    fcount+=1
+                    fcount += 1
                 if raw.find(searchkey) != -1:
+                    # import ipdb; ipdb.set_trace()
                     lines = raw.split('\n')
                     for line in lines:
-                        if searchkey in line:
-                            list_of_contain_lines.append(line)
-                            # print line
-                            # if list_AA in list_of_contain_lines:
-                            #     list_result=''
+                        chars = line.split(' ')
+                        for char in chars:
+                            if char =='':
+                                pass
+                            elif char.find(searchkey) != -1 and isJSVar(char):
+                                    list_of_contain_lines.append(char)
+                                    print lines, line, list_of_contain_lines
 
     except: pass
     vcount +=1
@@ -43,16 +46,37 @@ def searcher(startdir,searchkey):
     list_of_contain_lines = []
     os.path.walk(startdir,visitor,searchkey)
 
+def isJSVar(string):
+    # 判断一个.js文件里的字符串是否是合法的变量
+    '''
+    :param s:
+        48  57  65 90 95 97 122
+        0    9  A  Z  _  a   z
+    :return:
+    '''
+    str0_to_int = ord(string[0])
+    if (str0_to_int>=97 and  str0_to_int<=122 ) or (str0_to_int>=65 and  str0_to_int<=90 ) or str0_to_int==95:
+        i = 1
+        while i<len(string):
+            str_to_int= ord(string[i])
+            if (str_to_int>=97 and str_to_int<=122 ) or (str_to_int>=65 and  str_to_int<=90 ) or (str_to_int==95) or (str_to_int>=48 and str_to_int<=57 ):
+                i += 1
+            else:
+                return False
+        return True
+    else:
+        return False
+
 if __name__=='__main__':
-    root=raw_input("type root directory:")
-    # root = '/home/jiangbin/findJS'
+    # root=raw_input("type root directory:")
+    root = '/home/jiangbin/findJS'
     key=raw_input("type key:")
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
     fd = open("result.txt", "w")
-    # str_names = str.__name__()
-    # str_names = "abcdefghijklmnopqrst"
+
+    str_names = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for i in range(len(list_of_contain_lines)):
         one = list_of_contain_lines[i]
-        fd.write( str(i)+ ":" + one   + "\n")
+        fd.write( str(i)+ ":" + one + "\n")
     fd.close()
