@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import os, sys
-import fnmatch
+from itertools import product
 
 listonly = False
 
@@ -67,6 +67,16 @@ def isJSVar(string):
     else:
         return False
 
+def label_array(n, labelstring):
+    results = []
+    for l in range(1, len(labelstring)+1):
+        results.extend([''.join(p) for p in product(labelstring, repeat=l)])
+        if len(results) >= n:
+            return results[:n]
+    return None
+
+
+
 if __name__=='__main__':
     # root=raw_input("type root directory:")
     root = '/home/jiangbin/findJS'
@@ -75,8 +85,12 @@ if __name__=='__main__':
     print 'Found in %d files,visited %d'%(fcount,vcount)
     fd = open("result.txt", "w")
 
-    str_names = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    for i in range(len(list_of_contain_lines)):
+    labelstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    n = len(list_of_contain_lines)
+    labels = label_array(n,labelstring)
+
+    for i in range(n):
         one = list_of_contain_lines[i]
-        fd.write( str(i)+ ":" + one + "\n")
+        label = labels[i]
+        fd.write(one+ ":" + label+'_'+label + "\n")
     fd.close()
