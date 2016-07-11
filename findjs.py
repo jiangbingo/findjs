@@ -6,6 +6,7 @@ import fnmatch
 listonly = False
 filetype = ['.js']
 
+
 def visitfile(fname,searchkey):
     global fcount,vcount,list_of_contain_lines
     try:
@@ -54,3 +55,4 @@ if __name__=='__main__':
         one = list_of_contain_lines[i]
         fd.write( str(i)+ ":" + one   + "\n")
     fd.close()
+

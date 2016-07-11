@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/findJS.iml" filepath="$PROJECT_DIR$/.idea/findJS.iml" />
       <module fileurl="file://$USER_HOME$/gezbackend/.idea/gezbackend.iml" filepath="$USER_HOME$/gezbackend/.idea/gezbackend.iml" />
       <module fileurl="file://$USER_HOME$/scrapy/.idea/scrapy.iml" filepath="$USER_HOME$/scrapy/.idea/scrapy.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/findjs.iml" filepath="$PROJECT_DIR$/.idea/findjs.iml" />
+>>>>>>> b31457a1f4679d770acfca71e21bc0334ded7806
     </modules>
   </component>
 </project>
