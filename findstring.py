@@ -78,19 +78,23 @@ def label_array(n, labelstring):
 
 
 if __name__=='__main__':
-    # root=raw_input("type root directory:")
-    root = '/home/jiangbin/findJS'
-    key=raw_input("type key:")
+    root=raw_input("type root directory:")
+    # root = '/home/jiangbin/findJS'
+    key=raw_input("type the search key:")
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
     fd = open("result.txt", "w")
 
+    new_list_of_contain_lines = []
+    for i in list_of_contain_lines:
+        if not i in new_list_of_contain_lines:
+            new_list_of_contain_lines.append(i)
     labelstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    n = len(list_of_contain_lines)
+    n = len(new_list_of_contain_lines)
     labels = label_array(n,labelstring)
 
     for i in range(n):
-        one = list_of_contain_lines[i]
+        one = new_list_of_contain_lines[i]
         label = labels[i]
         fd.write(one+ ":" + label+'_'+label + "\n")
     fd.close()
