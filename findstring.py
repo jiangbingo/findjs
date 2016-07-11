@@ -4,7 +4,9 @@ import os, sys
 import fnmatch
 
 listonly = False
-filetype = ['.js']
+
+# 结果放入.txt文件，故禁用.txt
+filetype = ['.js', '.html']
 
 def visitfile(fname,searchkey):
     global fcount,vcount,list_of_contain_lines
