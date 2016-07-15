@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import os, sys
+import re
 from itertools import product
 
 listonly = False
@@ -21,13 +22,20 @@ def visitfile(fname,searchkey):
                     # import ipdb; ipdb.set_trace()
                     lines = raw.split('\n')
                     for line in lines:
-                        chars = line.split(' ')
-                        for char in chars:
-                            if char =='':
-                                pass
-                            elif char.find(searchkey) != -1 and isJSVar(char):
-                                    list_of_contain_lines.append(char)
-                                    print lines, line, list_of_contain_lines
+                        if line.find(searchkey) > -1:
+                            vars = re.findall(r"([\d,\w]*" + searchkey +"[\d,\w]*)", line)
+                            for var in vars:
+                                list_of_contain_lines.append(var)
+                            print list_of_contain_lines
+
+                    # for line in lines:
+                    #     chars = line.split(' ') or line.split('.')
+                    #     for char in chars:
+                    #         if char =='':
+                    #             pass
+                    #         elif char.find(searchkey) != -1 and isJSVar(char):
+                    #                 list_of_contain_lines.append(char)
+                    #                 print lines, line, list_of_contain_lines
 
     except: pass
     vcount +=1
@@ -48,18 +56,21 @@ def searcher(startdir,searchkey):
 
 def isJSVar(string):
     # 判断一个.js文件里的字符串是否是合法的变量
+
+    # 除了下划线其他非字母字符分割的包含查询字符的字符串均为变量
+
     '''
     :param s:
-        48  57  65 90 95 97 122
-        0    9  A  Z  _  a   z
+        48  57  65 90 95 97 122   46
+        0    9  A  Z  _  a   z    .
     :return:
     '''
     str0_to_int = ord(string[0])
-    if (str0_to_int>=97 and  str0_to_int<=122 ) or (str0_to_int>=65 and  str0_to_int<=90 ) or str0_to_int==95:
+    if (str0_to_int>=97 and  str0_to_int<=122 ) or (str0_to_int>=65 and  str0_to_int<=90 ) or str0_to_int==95 or str0_to_int==46:
         i = 1
         while i<len(string):
             str_to_int= ord(string[i])
-            if (str_to_int>=97 and str_to_int<=122 ) or (str_to_int>=65 and  str_to_int<=90 ) or (str_to_int==95) or (str_to_int>=48 and str_to_int<=57 ):
+            if (str_to_int>=97 and str_to_int<=122 ) or (str_to_int>=65 and  str_to_int<=90 ) or (str_to_int==95) or (str_to_int==46) or (str_to_int>=48 and str_to_int<=57 ):
                 i += 1
             else:
                 return False
@@ -79,8 +90,9 @@ def label_array(n, labelstring):
 
 if __name__=='__main__':
     root=raw_input("type root directory:")
-    # root = '/home/jiangbin/findJS'
+    # root = 'C:/Users/jiangbin/Desktop/findjs'
     key=raw_input("type the search key:")
+    # key = 'roomType'
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
     fd = open("result.txt", "w")
