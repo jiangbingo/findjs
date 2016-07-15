@@ -15,18 +15,23 @@ def visitfile(fname,searchkey):
         if not listonly:
             if os.path.splitext(fname)[1] in filetype:
                 raw = open(fname).read()
+                print 'seaching in :%s' % fname
                 if open(fname).read().find(searchkey) != -1:
                     print '%s has %s '%(fname,searchkey)
                     fcount += 1
                 if raw.find(searchkey) != -1:
                     # import ipdb; ipdb.set_trace()
                     lines = raw.split('\n')
+                    count = 0
                     for line in lines:
+                        count += 1
+                        if count % 1000 == 0:
+                            print "filename:%s total:%s current_line_no: %s" %(fname,len(lines),count)
                         if line.find(searchkey) > -1:
                             vars = re.findall(r"([\d,\w]*" + searchkey +"[\d,\w]*)", line)
                             for var in vars:
                                 list_of_contain_lines.append(var)
-                            print list_of_contain_lines
+                            # print list_of_contain_lines
 
                     # for line in lines:
                     #     chars = line.split(' ') or line.split('.')
@@ -92,7 +97,7 @@ if __name__=='__main__':
     root=raw_input("type root directory:")
     # root = 'C:/Users/jiangbin/Desktop/findjs'
     key=raw_input("type the search key:")
-    # key = 'roomType'
+    # key = 'JSQ'
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
     fd = open("result.txt", "w")

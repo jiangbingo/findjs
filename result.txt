@@ -12,6 +12,6 @@ JSQEX_groundBorder:K_K
 JSQEX_ceilPattern:L_L
 JSQEX_ceilBorder:M_M
 JSQEX_areas:N_N
-JSQEX_contents:O_O
-JSQEX_rooms:P_P
-JSQEX_graph:Q_Q
+JSQEX_rooms:O_O
+JSQEX_graph:P_P
+JSQEX_RoomQUEIRUQIEWR:Q_Q
