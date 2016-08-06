@@ -94,24 +94,44 @@ def label_array(n, labelstring):
 
 
 if __name__=='__main__':
-    root=raw_input("type root directory:")
-    # root = 'C:/Users/jiangbin/Desktop/findjs'
-    key=raw_input("type the search key:")
-    # key = 'JSQ'
+    # root=raw_input("type root directory:")
+    root = 'E:'
+    # key=raw_input("type the search key:")
+    key = 'JSQ'
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
-    fd = open("result.txt", "w")
+    # import ipdb;ipdb.set_trace()
+    oldkeys = []
+    oldlabels = []
+    addkeys = []
+    newkeys = []
+    with open("result.txt") as f:
+        for line in f.readlines():
+            line = line.strip()
+            oldkey,oldlabel = line.split(":")
+            oldkeys.append(oldkey)
+            oldlabels.append(oldlabel)
 
-    new_list_of_contain_lines = []
-    for i in list_of_contain_lines:
-        if not i in new_list_of_contain_lines:
-            new_list_of_contain_lines.append(i)
-    labelstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    n = len(new_list_of_contain_lines)
-    labels = label_array(n,labelstring)
+        for i in list_of_contain_lines:
+            if not  i in newkeys:
+                newkeys.append(i)
 
+
+
+        for j in newkeys:
+            if not j in oldkeys:
+                addkeys.append(j)
+
+        import ipdb;ipdb.set_trace()
+
+        labelstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        n = len(newkeys)
+        labels = label_array(n,labelstring)
+
+
+    f = open("result.txt", "w")
     for i in range(n):
-        one = new_list_of_contain_lines[i]
+        one = newkeys[i]
         label = labels[i]
-        fd.write(one+ ":" + label+'_'+label + "\n")
-    fd.close()
+        f.write(one+ ":" + label+'_'+label + "\n")
+    f.close()

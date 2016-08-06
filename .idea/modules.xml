@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/findjs.iml" filepath="$PROJECT_DIR$/.idea/findjs.iml" />
+      <module fileurl="file://E:/gezbackend/.idea/gezbackend.iml" filepath="E:/gezbackend/.idea/gezbackend.iml" />
     </modules>
   </component>
 </project>
