@@ -94,10 +94,11 @@ def label_array(n, labelstring):
 
 
 if __name__=='__main__':
-    root=raw_input("type root directory:")
+    # root=raw_input("type root directory:")
     # root = 'C:/Users/jiangbin/Desktop/findjs'
-    key=raw_input("type the search key:")
-    # key = 'JSQ'
+    root = 'E:/findjs'
+    # key=raw_input("type the search key:")
+    key = 'JSQ'
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
     fd = open("result.txt", "w")
