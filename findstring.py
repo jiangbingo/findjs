@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import os, sys
-import re
+import re , collections
 from itertools import product
 
 listonly = False
@@ -95,24 +95,105 @@ def label_array(n, labelstring):
 
 if __name__=='__main__':
     # root=raw_input("type root directory:")
-    # root = 'C:/Users/jiangbin/Desktop/findjs'
     root = 'E:/findjs'
     # key=raw_input("type the search key:")
     key = 'JSQ'
+    # title = raw_input("type your name(default:none):")
+
     searcher(root,key)
     print 'Found in %d files,visited %d'%(fcount,vcount)
-    fd = open("result.txt", "w")
+    oldkeys = []
+    oldlabels = []
+    olddict = dict()
 
-    new_list_of_contain_lines = []
+
+    newkeys = []
+    delkeys = []
+    addkeys = []
+    addlabels = []
+
+    cachelabels = []
+    # with open("cache.txt") as f:
+    #     for line in f.readlines():
+    #         cachelabels = line.strip()
+
+    if os.path.isfile('cache.txt'):
+        fcache = open("cache.txt",'r')
+        for line in fcache.readlines():
+            cachelabels = line.strip()
+    else:
+        fcache = open("cache.txt",'w+')
+        fcache.close()
+
+
+
+
+    if os.path.isfile('result.txt'):
+        fresult = open('result.txt','r')
+        for line in fresult.readlines():
+            line = line.strip()
+            oldkey, oldlabel = line.split(":")
+            # if line.find("###") != -1:
+            #     title,content = line.split("###")
+            #     oldkey,oldlabel = content.split(":")
+            # else:
+            #     title = '   '
+            #     oldkey, oldlabel = line.split(":")
+            oldkeys.append(oldkey)
+            oldlabels.append(oldlabel)
+    else:
+        fresult = open("result.txt", 'w+')
+        fresult.close()
+
+    _dict =  dict(zip(oldkeys,oldlabels))
+
+    olddict = collections.OrderedDict()
+    for key in oldkeys:
+        olddict[key] = _dict[key]
+
+
     for i in list_of_contain_lines:
-        if not i in new_list_of_contain_lines:
-            new_list_of_contain_lines.append(i)
-    labelstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    n = len(new_list_of_contain_lines)
-    labels = label_array(n,labelstring)
+        if not  i in newkeys:
+            newkeys.append(i)
 
-    for i in range(n):
-        one = new_list_of_contain_lines[i]
-        label = labels[i]
-        fd.write(one+ ":" + label+'_'+label + "\n")
-    fd.close()
+    for j in newkeys:
+        if not j in oldkeys:
+            addkeys.append(j)
+
+    # for k in oldkeys:
+    #     if not  k in newkeys:
+    #         delkeys.append(k)
+
+    labelstring = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    n = len(newkeys)
+    templabels = label_array(n,labelstring)
+
+    labels = []
+    for label in templabels:
+        labels.append(label+'_'+label)
+
+    for k in labels:
+        if not k in olddict.values():
+            addlabels.append(k)
+
+
+
+    t = 0
+    newdict = collections.OrderedDict()
+
+    for key in  newkeys:
+        if key in olddict.keys():
+            newdict[key] = olddict[key]
+        else:
+            newdict[key] = addlabels[t]
+            t = t + 1
+
+    f = open('result.txt','w+')
+    for key in newdict.keys():
+        f.write(key + ':' + newdict[key] +  "\n")
+    f.close()
+
+    # fd = open('cache.txt', 'a')
+    # for label in newdict.values():
+    #     fd.write(label + '\n')
+    # fd.close()
