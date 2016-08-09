@@ -123,21 +123,27 @@ if __name__=='__main__':
             cachelabels = line.strip()
     else:
         fcache = open("cache.txt",'w+')
+        fcache.close()
 
 
-    f1 = open("result.txt",'w+')
-    for line in f1.readlines():
-        line = line.strip()
-        oldkey, oldlabel = line.split(":")
-        # if line.find("###") != -1:
-        #     title,content = line.split("###")
-        #     oldkey,oldlabel = content.split(":")
-        # else:
-        #     title = '   '
-        #     oldkey, oldlabel = line.split(":")
-        oldkeys.append(oldkey)
-        oldlabels.append(oldlabel)
-    f1.close()
+
+
+    if os.path.isfile('result.txt'):
+        fresult = open('result.txt','r')
+        for line in fresult.readlines():
+            line = line.strip()
+            oldkey, oldlabel = line.split(":")
+            # if line.find("###") != -1:
+            #     title,content = line.split("###")
+            #     oldkey,oldlabel = content.split(":")
+            # else:
+            #     title = '   '
+            #     oldkey, oldlabel = line.split(":")
+            oldkeys.append(oldkey)
+            oldlabels.append(oldlabel)
+    else:
+        fresult = open("result.txt", 'w+')
+        fresult.close()
 
     _dict =  dict(zip(oldkeys,oldlabels))
 
@@ -170,7 +176,7 @@ if __name__=='__main__':
         if not k in olddict.values():
             addlabels.append(k)
 
-    f = open("result.txt", "w")
+
 
     t = 0
     newdict = collections.OrderedDict()
@@ -180,14 +186,14 @@ if __name__=='__main__':
             newdict[key] = olddict[key]
         else:
             newdict[key] = addlabels[t]
-            import ipdb;ipdb.set_trace()
             t = t + 1
 
+    f = open('result.txt','w+')
     for key in newdict.keys():
         f.write(key + ':' + newdict[key] +  "\n")
+    f.close()
 
-
-    fd = open('cache.txt', 'a')
-    for label in newdict.values():
-        fd.write(label + '\n')
-    fd.close()
+    # fd = open('cache.txt', 'a')
+    # for label in newdict.values():
+    #     fd.write(label + '\n')
+    # fd.close()
