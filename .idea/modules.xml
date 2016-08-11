@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/findjs.iml" filepath="$PROJECT_DIR$/.idea/findjs.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/scrapy/.idea/scrapy.iml" filepath="$USER_HOME$/PycharmProjects/scrapy/.idea/scrapy.iml" />
     </modules>
   </component>
 </project>
